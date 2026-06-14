@@ -1,5 +1,7 @@
 # Sanur E2E Mapping
 
+### 🌏 Live map: <https://cgiovando.github.io/bali-sanur-e2e-map/>
+
 An interactive web map of the **Bali / Sanur end-to-end mapping exercise** - a HOT
 (Humanitarian OpenStreetMap Team) workflow run over one week in Sanur, Bali, for
 **BPBD tsunami-evacuation planning**. It brings the whole pipeline onto one map:
@@ -10,7 +12,12 @@ An interactive web map of the **Bali / Sanur end-to-end mapping exercise** - a H
 4. **Collect** - field teams log critical infrastructure with ChatMap.
 5. **Plan** - the data feeds evacuation planning in Field-TM.
 
-![Sanur E2E map](docs/preview.jpg)
+[![Sanur E2E map](docs/preview.jpg)](https://cgiovando.github.io/bali-sanur-e2e-map/)
+
+> The map data **refreshes itself automatically**: a scheduled GitHub Action
+> re-bakes a rolling 7-day window of OSM edits, the latest OpenAerialMap imagery,
+> and ChatMap field points every week (and on demand), then commits and
+> redeploys - no manual updates needed.
 
 ## Layers
 
@@ -63,11 +70,59 @@ Then open <http://localhost:8000>. To refresh the data, re-run `npm run build:da
 `check:data` guards against regressions (untagged-node clutter, off-AOI
 mega-relations, malformed manifest) and runs in CI after every rebuild.
 
-## Deploy
+## Deploy & automatic data refresh
 
-This repo is built for **GitHub Pages** (deploy from `main`, root). The
-`.github/workflows/refresh-data.yml` action re-bakes the data weekly (and on
-manual dispatch) and commits it, which triggers a Pages rebuild.
+The site is hosted on **GitHub Pages** (deploy from `main`, root) at
+<https://cgiovando.github.io/bali-sanur-e2e-map/>.
+
+Data is kept current automatically. The
+[`refresh-data.yml`](.github/workflows/refresh-data.yml) GitHub Action runs:
+
+- **on a weekly schedule** (Mondays), and
+- **on demand** (the "Run workflow" button / `workflow_dispatch`).
+
+Each run re-bakes the data (recomputing the rolling 7-day OSM window at build
+time), validates it with `check:data`, and - if anything changed - commits the
+updated `data/` back to `main`, which triggers a fresh Pages deploy. So the
+published map stays up to date with no manual steps. You can also refresh it
+locally any time with `npm run build:data`.
+
+## Project facts
+
+- **~1,260 lines** of hand-written source, no framework and no front-end build
+  step:
+  - Front-end app: **~757 lines** (`index.html` 127, `styles.css` 168, `app.js` 462)
+  - Data pipeline + validation: **~454 lines** (`build-data.mjs` 368, `check-data.mjs` 86)
+  - CI workflow: **49 lines**
+- **1 runtime dependency** for the build step (`osmtogeojson`); the map itself
+  loads MapLibre GL JS from a CDN.
+- **0 API keys / secrets** - every data source is public and key-free.
+
+## Alignment with HOT development best practices
+
+This project follows the open, transparent, reuse-first principles HOT applies
+to its tools:
+
+- **Open source, open data** - MIT-licensed code; all layers come from open
+  sources (OpenStreetMap, OpenAerialMap, ChatMap, the HOT Portal) and every
+  source is **fully attributed** in the UI and this README, with upstream data
+  licenses preserved (OSM data under ODbL).
+- **Reuse over reinvention** - builds directly on HOT's own stack (MapLibre GL
+  JS, OpenAerialMap + TiTiler, Overpass, ChatMap, the HOT Portal API) rather
+  than re-implementing it.
+- **Reproducible & automated** - a single `npm run build:data` regenerates all
+  data deterministically; CI re-bakes, validates, and redeploys on a schedule.
+- **Resilient** - data is baked to static files so the live map never depends
+  on a third-party API being up at page-load time, and never risks Overpass
+  rate limits for visitors; the build retries mirrors and bounds every request
+  with a timeout.
+- **Accessible & lightweight** - semantic HTML, keyboard-operable controls,
+  ARIA labels, sufficient colour contrast, a clear legend, and a
+  mobile-responsive layout; the whole front end is a few static files.
+- **Secure** - no secrets in the repo; user-facing values from upstream APIs are
+  escaped / inserted as text, not raw HTML.
+- **Reviewed** - the code was cross-model reviewed and the findings addressed
+  before publishing (see the commit history).
 
 ## AI-assisted development
 
