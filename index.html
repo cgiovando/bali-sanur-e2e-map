@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Bali / Sanur - End-to-End Mapping Exercise</title>
+  <meta name="description" content="A web map of the HOT Bali / Sanur end-to-end mapping exercise: fresh drone imagery from OpenAerialMap, OSM data mapped in the last week, and ChatMap field-collected critical infrastructure - for BPBD tsunami evacuation planning." />
+
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside id="sidebar" aria-label="Map information and layer controls">
+      <header class="sidebar-header">
+        <div class="brand">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <div>
+            <h1>Sanur E2E Mapping</h1>
+            <p class="subtitle">Bali end-to-end mapping exercise</p>
+          </div>
+        </div>
+        <button id="sidebar-close" class="icon-btn" aria-label="Hide panel" title="Hide panel">&times;</button>
+      </header>
+
+      <div class="sidebar-scroll">
+        <!-- Story -->
+        <section class="panel" aria-labelledby="story-h">
+          <h2 id="story-h">The story</h2>
+          <p>
+            Over one week in Sanur, Bali, a complete humanitarian mapping workflow was
+            run end-to-end for <strong>BPBD tsunami-evacuation planning</strong> -
+            from flying drones to collecting infrastructure on the ground. This map
+            brings the results together.
+          </p>
+          <ol class="workflow">
+            <li><strong>Fly</strong> - community drones capture 5&nbsp;cm imagery.</li>
+            <li><strong>Publish</strong> - imagery goes to OpenAerialMap.</li>
+            <li><strong>Map</strong> - buildings &amp; roads traced into OSM (AI + a mapathon).</li>
+            <li><strong>Collect</strong> - field teams log critical infrastructure with ChatMap.</li>
+            <li><strong>Plan</strong> - data feeds evacuation planning in Field-TM.</li>
+          </ol>
+          <p class="muted" id="plan-link-wrap">
+            Source plan: <a id="plan-link" href="#" target="_blank" rel="noopener">HOT Portal</a>
+          </p>
+        </section>
+
+        <!-- Layers -->
+        <section class="panel" aria-labelledby="layers-h">
+          <h2 id="layers-h">Layers</h2>
+
+          <fieldset class="layer-group">
+            <legend>Basemap</legend>
+            <label class="radio"><input type="radio" name="basemap" value="osm" checked /> <span>OSM standard</span></label>
+            <label class="radio"><input type="radio" name="basemap" value="esri" /> <span>Satellite (Esri)</span></label>
+          </fieldset>
+
+          <fieldset class="layer-group">
+            <legend>Overlays</legend>
+            <label class="toggle">
+              <input type="checkbox" id="lyr-oam" checked />
+              <span class="sw-label">Drone imagery <em id="oam-count"></em></span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" id="lyr-osm" checked />
+              <span class="sw-label">Recent OSM (7 days) <em id="osm-count"></em></span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" id="lyr-infra" checked />
+              <span class="sw-label">ChatMap: infrastructure <em id="infra-count"></em></span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" id="lyr-inter" />
+              <span class="sw-label">ChatMap: intersections <em id="inter-count"></em></span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" id="lyr-aoi" checked />
+              <span class="sw-label">Drone flight areas <em id="aoi-count"></em></span>
+            </label>
+          </fieldset>
+        </section>
+
+        <!-- Legend -->
+        <section class="panel" aria-labelledby="legend-h">
+          <h2 id="legend-h">Legend</h2>
+          <ul class="legend">
+            <li><span class="sw sw-new"></span> OSM created this week</li>
+            <li><span class="sw sw-edited"></span> OSM edited this week</li>
+            <li><span class="dot dot-infra"></span> Critical infrastructure (photo)</li>
+            <li><span class="dot dot-inter"></span> Intersection</li>
+            <li><span class="sw sw-aoi"></span> Drone flight area</li>
+          </ul>
+          <p class="muted note">
+            "Recent" uses OSM last-edit time, so a few features may be older
+            objects that were merely touched this week. New-vs-edited is inferred
+            from version&nbsp;1.
+          </p>
+        </section>
+
+        <!-- Sources -->
+        <section class="panel" aria-labelledby="src-h">
+          <h2 id="src-h">Data &amp; sources</h2>
+          <ul class="sources" id="sources-list">
+            <li><a href="https://openaerialmap.org" target="_blank" rel="noopener">OpenAerialMap</a> - drone imagery</li>
+            <li><a href="https://www.openstreetmap.org" target="_blank" rel="noopener">OpenStreetMap</a> - buildings &amp; roads</li>
+            <li><a href="https://chatmap.hotosm.org" target="_blank" rel="noopener">ChatMap</a> - field data</li>
+            <li id="src-tm"></li>
+            <li id="src-ftm"></li>
+          </ul>
+          <p class="muted" id="updated"></p>
+        </section>
+      </div>
+    </aside>
+
+    <button id="sidebar-open" class="icon-btn floating hidden" aria-label="Show panel" title="Show panel">&#9776;</button>
+
+    <!-- Map -->
+    <main id="map" aria-label="Interactive map of Sanur mapping data"></main>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "bali-sanur-e2e-map",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static web map of the HOT Bali / Sanur end-to-end mapping exercise (drone imagery, recent OSM, ChatMap field data).",
+  "type": "module",
+  "scripts": {
+    "build:data": "node scripts/build-data.mjs",
+    "check:data": "node scripts/check-data.mjs",
+    "test": "node scripts/check-data.mjs",
+    "serve": "python3 -m http.server 8000"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "osmtogeojson": "^3.0.0-beta.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
