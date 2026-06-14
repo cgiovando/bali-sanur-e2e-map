@@ -89,7 +89,7 @@ locally any time with `npm run build:data`.
 
 ## Project facts
 
-- **~1,260 lines** of source (AI-generated, human-reviewed - see
+- **~1,260 lines** of source (AI-generated - see
   [AI-assisted development](#ai-assisted-development)), no framework and no
   front-end build step:
   - Front-end app: **~757 lines** (`index.html` 127, `styles.css` 168, `app.js` 462)
@@ -127,11 +127,13 @@ to its tools:
 
 ## AI-assisted development
 
-> This project was developed with significant assistance from AI coding tools.
+> This was a **demonstration / test project**, built almost entirely by AI.
 
-- **[Claude Code](https://claude.ai/claude-code)** (Anthropic) - code generation, architecture, debugging, and documentation
-- All functionality has been tested and verified to work as intended
-- Features and infrastructure choices have been reviewed and approved by the maintainer
+- **[Claude Code](https://claude.ai/claude-code)** (Anthropic) generated essentially all of the code, architecture, and documentation.
+- The maintainer **verified the app's functionality** (layers, popups, imagery, responsiveness) in the browser and approved the overall approach - but did **not** perform a line-by-line human code review.
+- The code was **cross-model reviewed by AI** (a second model reviewing Claude's output), and those findings were addressed before publishing - see the commit history.
+
+Treat it accordingly: it works and is a useful reference, but it has not had a human code audit.
 
 This disclosure follows emerging best practices for transparency in AI-assisted software development.
 
