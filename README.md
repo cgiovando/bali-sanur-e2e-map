@@ -89,8 +89,9 @@ locally any time with `npm run build:data`.
 
 ## Project facts
 
-- **~1,260 lines** of hand-written source, no framework and no front-end build
-  step:
+- **~1,260 lines** of source (AI-generated, human-reviewed - see
+  [AI-assisted development](#ai-assisted-development)), no framework and no
+  front-end build step:
   - Front-end app: **~757 lines** (`index.html` 127, `styles.css` 168, `app.js` 462)
   - Data pipeline + validation: **~454 lines** (`build-data.mjs` 368, `check-data.mjs` 86)
   - CI workflow: **49 lines**
