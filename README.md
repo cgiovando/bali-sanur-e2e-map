@@ -1,5 +1,7 @@
 # Sanur E2E Mapping
 
+> **Archived (November 2026).** This project has ended and its data is no longer updated. The map shows OpenStreetMap data as of 2026-11-16.
+
 ### 🌏 Live map: <https://cgiovando.github.io/bali-sanur-e2e-map/>
 
 An interactive web map of the **Bali / Sanur end-to-end mapping exercise** - a HOT
